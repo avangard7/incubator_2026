@@ -3,10 +3,10 @@ import "./App.css";
 
 function App() {
   const [selectedTrackId, setSelectedTrackId] = useState(null);
+  const [selectedTrack, setSelectedTrack] = useState(null);
   const [tracks, setTracks] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [likecount, setLikecount] = useState(null);
 
   useEffect(() => {
     console.log("effect запущен");
@@ -52,7 +52,7 @@ function App() {
   }, []);
 
   // Используем безопасный доступ к данным
-  const selectedTrack = tracks?.find((track) => track.id === selectedTrackId);
+  // const selectedTrack = tracks?.find((track) => track.id === selectedTrackId);
 
   console.log("Текущие tracks:", tracks);
   console.log("Выбранный трек ID:", selectedTrackId);
@@ -60,7 +60,7 @@ function App() {
 
   console.log("Загрузка:", loading);
   console.log("ошибка:", error);
-  console.log("like", likecount);
+  //console.log("like", likecount);
 
   if (loading) {
     return (
@@ -97,12 +97,18 @@ function App() {
         onClick={() => {
           console.log("Сброс выбора трека");
           setSelectedTrackId(null);
+          setSelectedTrack(null);
         }}
       >
         reset selection
       </button>
 
-      <div>
+      <div
+        style={{
+          /* display: "flex", */
+          gap: "30px",
+        }}
+      >
         <ul>
           {tracks.map((track) => {
             const isSelected = track.id === selectedTrackId;
@@ -122,9 +128,7 @@ function App() {
                     console.log("Клик по треку:", track.attributes?.title);
                     console.log("ID трека:", track.id);
                     setSelectedTrackId(track.id);
-                    // const [likecount, setLikecount] = useState(null);
-                    console.log("This LikeCount:", track.attributes.likesCount);
-                    setLikecount(track.attributes.likesCount);
+                    setSelectedTrack(track);
                   }}
                   style={{
                     cursor: "pointer",
@@ -143,6 +147,9 @@ function App() {
             );
           })}
         </ul>
+        <div>
+          <h3>Detail</h3>
+        </div>
       </div>
 
       <div
